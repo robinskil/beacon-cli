@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "beacon-datalake-cli"
+version = "0.1.0"
+description = "Command-line interface for Beacon Data Lake nodes"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+authors = [
+	{ name = "Beacon Data Lake" }
+]
+keywords = ["beacon", "datalake", "cli"]
+classifiers = [
+	"Development Status :: 3 - Alpha",
+	"Intended Audience :: Developers",
+	"License :: OSI Approved :: GNU Affero General Public License v3",
+	"Programming Language :: Python",
+	"Programming Language :: Python :: 3",
+	"Programming Language :: Python :: 3.10",
+	"Programming Language :: Python :: 3.11",
+	"Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Operating System :: OS Independent",
+	"Topic :: Utilities",
+]
+dependencies = [
+	"beacon-api>=1.1.0",
+	"cmd2>=2.4",
+	"pandas>=2.0",
+	"pyarrow>=14.0",
+	"rich>=13.0",
+]
+
+[project.scripts]
+"beacon-datalake-cli" = "cli:main"
+
+[tool.setuptools]
+py-modules = ["cli"]
