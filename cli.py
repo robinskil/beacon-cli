@@ -4,13 +4,8 @@ from __future__ import annotations
 
 import argparse
 import ast
-import contextlib
-import os
 import shutil
-import sys
-import termios
 import time
-import tty
 from io import BytesIO
 from pathlib import Path
 from typing import Any, Optional, cast
@@ -941,7 +936,9 @@ class BeaconCli(cmd2.Cmd):
         if args.delimiter:
             extra_kwargs["delimiter"] = args.delimiter
         if args.statistics_columns:
-            extra_kwargs["statistics_columns"] = args.statistics_columns
+            extra_kwargs["statistics"] = {
+                "columns": args.statistics_columns
+            }
 
         try:
             client.create_logical_table(
