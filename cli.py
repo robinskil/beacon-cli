@@ -151,6 +151,7 @@ def _dataset_upload_arg_parser() -> Cmd2ArgumentParser:
         "destination_path",
         help="Destination path on the Beacon node, e.g. /data/datasets/file.parquet",
     )
+    parser.add_argument("--force", help="Force the action even when beacon version mismatches.", default=False)
     return parser
 
 
@@ -162,6 +163,7 @@ def _dataset_download_arg_parser() -> Cmd2ArgumentParser:
     parser.add_argument(
         "local_path", help="Local path where the downloaded file should be saved"
     )
+    parser.add_argument("--force", help="Force the action even when beacon version mismatches.", default=False)
     return parser
 
 
@@ -172,6 +174,7 @@ def _dataset_delete_arg_parser() -> Cmd2ArgumentParser:
     parser.add_argument(
         "dataset_path", help="Path to the dataset on the Beacon node to delete"
     )
+    parser.add_argument("--force", help="Force the action even when beacon version mismatches.", default=False)
     return parser
 
 
@@ -1085,7 +1088,7 @@ class BeaconCli(cmd2.Cmd):
 
         client = cast(Client, self.client)
         try:
-            client.upload_dataset(str(local_path), args.destination_path)
+            client.upload_dataset(str(local_path), args.destination_path, force=args.force)
         except Exception as exc:  # pragma: no cover - CLI wrapper
             self.perror(f"Upload failed: {exc}")
             return
@@ -1108,7 +1111,7 @@ class BeaconCli(cmd2.Cmd):
         local_path = Path(args.local_path).expanduser()
         client = cast(Client, self.client)
         try:
-            client.download_dataset(args.dataset_path, str(local_path))
+            client.download_dataset(args.dataset_path, str(local_path), force=args.force)
         except Exception as exc:  # pragma: no cover - CLI wrapper
             self.perror(f"Download failed: {exc}")
             return
@@ -1130,7 +1133,7 @@ class BeaconCli(cmd2.Cmd):
 
         client = cast(Client, self.client)
         try:
-            client.delete_dataset(args.dataset_path)
+            client.delete_dataset(args.dataset_path, force=args.force)
         except Exception as exc:  # pragma: no cover - CLI wrapper
             self.perror(f"Delete failed: {exc}")
             return
